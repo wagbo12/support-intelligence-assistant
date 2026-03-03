@@ -4,8 +4,6 @@
 
 Built for the Wealthsimple AI Builder submission by **Williams Agbo**.
 
-![Demo Screenshot](screenshot.png)  
-*Add a screenshot of the interface here*
 
 ---
 
