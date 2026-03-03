@@ -2,8 +2,10 @@
 
 **An AI-assisted ticket triage system that demonstrates effective human and AI collaboration in customer support.**
 
-Built for the Wealthsimple AI Builder submission by **
-About Me
+Built for the Wealthsimple AI Builder submission by 
+
+**
+
 I'm Williams Agbo, a recent Software Engineering graduate with experience in:
 
 Data validation and ETL workflows (Outlier)
@@ -15,7 +17,9 @@ Full-stack development (Drum Rock, Kid R Key)
 User support and training (Walmart, Kid R Key)
 
 Certifications: Azure AI900, IBM Data Analyst
-Years with AI tools: 2+ years**.
+Years with AI tools: 2+ years
+
+**
 
 ---
 
