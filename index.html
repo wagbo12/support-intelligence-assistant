@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Intelligence Assistant | Wealthsimple AI Builder</title>
+    <style>
+        /* Clean, modern design - inspired by Wealthsimple's aesthetic */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #4a5568;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .ticket-box {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .ticket-box h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            margin: 15px 0;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #5a67d8;
+        }
+        
+        .result-box {
+            margin-top: 30px;
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .analysis-card {
+            background: #edf2f7;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        
+        .analysis-card p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .badge.account { background: #fbd38d; color: #7b341e; }
+        .badge.billing { background: #fc8181; color: #742a2a; }
+        .badge.technical { background: #9ae6b4; color: #22543d; }
+        .badge.general { background: #cbd5e0; color: #1a202c; }
+        
+        .priority-high { color: #c53030; font-weight: 600; }
+        .priority-medium { color: #dd6b20; font-weight: 600; }
+        .priority-low { color: #2f855a; font-weight: 600; }
+        
+        .human-flag {
+            background: #fff5f5;
+            border-left: 6px solid #f56565;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 4px;
+            animation: slideIn 0.5s;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .human-flag strong {
+            color: #c53030;
+            font-size: 1.1em;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #718096;
+            font-size: 0.9em;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .error-message {
+            color: #e53e3e;
+            background: #fff5f5;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Support Intelligence Assistant</h1>
+            <p>AI-powered ticket triage with human oversight</p>
+        </div>
+        
+        <div class="content">
+            <div class="ticket-box">
+                <h3>📝 New Support Ticket</h3>
+                <p style="color: #4a5568; margin-bottom: 5px;">Describe your issue:</p>
+                <textarea id="ticketInput" rows="4" placeholder="Example: I forgot my password, I was charged twice, the app keeps crashing...">I forgot my password</textarea>
+                <button onclick="processTicket()">Process Ticket</button>
+            </div>
+            
+            <div id="resultBox" class="result-box">
+                <h3 style="color: #2d3748; margin-bottom: 15px;">🔍 AI Analysis</h3>
+                <div id="analysis" class="analysis-card"></div>
+                
+                <div id="humanDecision" class="human-flag" style="display: none;">
+                    <strong>⚠️ Human Decision Required</strong>
+                    <p>This ticket involves sensitive data. AI cannot approve changes to accounts or financial information. A human agent must review and take action.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Built for Wealthsimple AI Builder · Williams Agbo · March 2026
+        </div>
+    </div>
+
+    <script>
+        // This function handles the API call and UI updates
+        // I spent a lot of time debugging CORS issues!
+        async function processTicket() {
+            const input = document.getElementById('ticketInput').value.trim();
+            
+            if (!input) {
+                alert('Please describe your issue before submitting.');
+                return;
+            }
+            
+            // Show loading state
+            const resultBox = document.getElementById('resultBox');
+            const analysisDiv = document.getElementById('analysis');
+            resultBox.style.display = 'block';
+            analysisDiv.innerHTML = '<p style="color: #718096;">⏳ Processing your request...</p>';
+            
+            try {
+                // Make API call to our backend
+                const response = await fetch('http://127.0.0.1:8000/api/support', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        message: input,
+                        ticket_type: "general" 
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Server responded with ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Build the response HTML
+                // Using template literals for cleaner code
+                let priorityClass = '';
+                if (data.priority === 'high') priorityClass = 'priority-high';
+                else if (data.priority === 'medium') priorityClass = 'priority-medium';
+                else priorityClass = 'priority-low';
+                
+                analysisDiv.innerHTML = `
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <span style="font-weight: 600; color: #2d3748;">Category:</span>
+                        <span class="badge ${data.category}">${data.category.toUpperCase()}</span>
+                    </div>
+                    <p><span style="font-weight: 600; color: #2d3748;">Priority:</span> 
+                       <span class="${priorityClass}">${data.priority.toUpperCase()}</span></p>
+                    <p style="margin-top: 20px;"><span style="font-weight: 600; color: #2d3748;">AI Response:</span></p>
+                    <p style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">${data.reply}</p>
+                `;
+                
+                // Show human decision flag for sensitive issues
+                // This is the core of my design philosophy
+                if (data.category === 'billing' || (data.category === 'account' && data.priority === 'high')) {
+                    document.getElementById('humanDecision').style.display = 'block';
+                } else {
+                    document.getElementById('humanDecision').style.display = 'none';
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                analysisDiv.innerHTML = `
+                    <div class="error-message">
+                        <strong>⚠️ Connection Error</strong>
+                        <p style="margin-top: 10px;">${error.message}</p>
+                        <p style="margin-top: 10px;">Make sure the server is running at http://127.0.0.1:8000</p>
+                    </div>
+                `;
+                document.getElementById('humanDecision').style.display = 'none';
+            }
+        }
+        
+        // Allow Enter key to submit (but not shift+enter for new lines)
+        document.getElementById('ticketInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                processTicket();
+            }
+        });
+    </script>
+</body>
+</html>
