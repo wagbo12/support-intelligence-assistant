@@ -1,9 +1,21 @@
 # Support Intelligence Assistant
 
-**An AI assisted ticket triage system that demonstrates effective human and AI collaboration in customer support.**
+**An AI-assisted ticket triage system that demonstrates effective human and AI collaboration in customer support.**
 
-Built for the Wealthsimple AI Builder submission by **Williams Agbo**.
+Built for the Wealthsimple AI Builder submission by **
+About Me
+I'm Williams Agbo, a recent Software Engineering graduate with experience in:
 
+Data validation and ETL workflows (Outlier)
+
+API integration and cloud deployment (Ministry)
+
+Full-stack development (Drum Rock, Kid R Key)
+
+User support and training (Walmart, Kid R Key)
+
+Certifications: Azure AI900, IBM Data Analyst
+Years with AI tools: 2+ years**.
 
 ---
 
